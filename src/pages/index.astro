@@ -1,5 +1,6 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
+import PokemonCard from "../components/pokemons/PokemonCard.astro";
 
 const response = await fetch("https://pokeapi.co/api/v2/pokemon");
 const data = (await response.json()) as PokemonListResponse;
@@ -11,8 +12,16 @@ console.log(data);
 	<hr />
 	<section
 		arial-label="Listado de Pokemons"
-		class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 gap-4"
+		class="grid grid-cols-1 sm:grid-cols-4 md:grid-cols-5 gap-4 mt-5"
 	>
-		{data.results.map((pokemon) => <li>{pokemon.name}</li>)}
+		{
+			data.results.map((pokemon) => (
+				// Se usa un par de parentesis adicional para retornar el componente de manera implicita sin usar la palabra reservada return.
+				<PokemonCard
+					pokemonName={pokemon.name}
+					pokemonImg={pokemon.url}
+				/>
+			))
+		}
 	</section>
 </MainLayout>
